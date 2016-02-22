@@ -20,8 +20,14 @@
         return res;
     }
 
+    function wrap(func){
+        return typeof func === 'function' ? function() {
+            return  promiseOrValue(func.apply(undefined, arguments));
+        } : undefined;
+    }
+
     function U (handler){
-        var promise = new Promise(handler);;
+        var promise = new Promise(handler);
 
         Object.defineProperty(this, 'promise', {
             value: promise,
@@ -29,20 +35,12 @@
         });
     }
 
-    U.prototype.spread = function spread(func) {
-        this.promise = this.promise.then(function (arr) {
-            return promiseOrValue(func.apply(null, arr));
-        });
-
-        return this;
-    }
-
     U.prototype.then = function (onFulfilled, onRejected) {
-        this.promise = this.promise.then(function(){
-            return promiseOrValue(onFulfilled.apply(this, arguments));
-        });
+        var nextU = Object.create(U.prototype);
 
-        return this;
+        nextU.promise = this.promise.then(wrap(onFulfilled), wrap(onRejected));
+
+        return nextU;
     }
 
     U.resolve = function resolve(value) {
@@ -59,6 +57,14 @@
 
     U.all = function all(arr) {
         return U.resolve(Promise.all(arr));
+    }
+
+    U.prototype.spread = function spread(func) {
+        this.promise = this.promise.then(function (arr) {
+            return promiseOrValue(func.apply(null, arr));
+        });
+
+        return this;
     }
 
     U.prototype.catch = function () {
