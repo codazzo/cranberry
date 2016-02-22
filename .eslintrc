@@ -1,0 +1,8 @@
+{
+    "extends": "defaults",
+    "globals": {
+        "Promise": true,
+        "define": true,
+        "module": true
+    }
+}
