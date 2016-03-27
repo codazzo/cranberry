@@ -14,7 +14,7 @@
     "promises-aplus-tests": "^2.1.1"
   },
   "scripts": {
-    "test": "promises-aplus-tests test/adapter"
+    "test": "mocha test/tests.js && promises-aplus-tests test/adapter"
   },
   "author": "Antonio D'Ettole",
   "license": "MIT"
