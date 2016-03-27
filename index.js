@@ -37,6 +37,9 @@
 
             function _spread(func) {
                 return buildUFromHandlers(promise, function (arr) {
+                    if (!Array.isArray(arr)) {
+                        return func.call(null, arr);
+                    }
                     return func.apply(null, arr);
                 });
             }
