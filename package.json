@@ -1,6 +1,6 @@
 {
   "name": "cranberry",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A rich promise API with native promises under the hood.",
   "main": "index.js",
   "directories": {
