@@ -12,7 +12,7 @@ If you have a browser baseline that includes most relatively recent [browsers](h
 ## Installation
 
 ```bash
-npm install --save-dev cranberry
+npm install cranberry
 ```
 
 ## Usage
