@@ -4,10 +4,10 @@
     } else if (typeof module === 'object' && module.exports) {
         module.exports = factory();
     } else {
-        root.U = factory();
+        root.C = factory();
     }
 }(this, function () {
-    function U (handler, optionalPromise, onFulfilled, onRejected){
+    function C (handler, optionalPromise, onFulfilled, onRejected){
         var promise = optionalPromise ? optionalPromise.then(wrap(onFulfilled), wrap(onRejected)) : new Promise(handler);
         var _u = this;
 
@@ -24,11 +24,11 @@
         }
 
         function _then(onFulfilled, onRejected) {
-            return new U(null, promise, onFulfilled, onRejected);
+            return new C(null, promise, onFulfilled, onRejected);
         }
 
         function _spread(func) {
-            return new U(null, promise, function (arr) {
+            return new C(null, promise, function (arr) {
                 if (!Array.isArray(arr)) {
                     return func.call(null, arr);
                 }
@@ -52,7 +52,7 @@
                     throw new TypeError('Usage: .catch(constructor, handler) or .catch(handler)');
             }
 
-            return new U(null, promise, null, function (val) {
+            return new C(null, promise, null, function (val) {
                 var shouldBeCaught = typeof constructor === 'undefined' || val instanceof constructor;
 
                 if (shouldBeCaught) {
@@ -76,21 +76,21 @@
         });
     }
 
-    U.resolve = function resolve(value) {
-        return new U(function (resolve) {
+    C.resolve = function resolve(value) {
+        return new C(function (resolve) {
             resolve(value);
         });
     }
 
-    U.reject = function reject(value) {
-        return new U(function (resolve, reject) {
+    C.reject = function reject(value) {
+        return new C(function (resolve, reject) {
             reject(value);
         });
     }
 
-    U.all = function all(arr) {
-        return U.resolve(Promise.all(arr));
+    C.all = function all(arr) {
+        return C.resolve(Promise.all(arr));
     }
 
-    return U;
+    return C;
 }));

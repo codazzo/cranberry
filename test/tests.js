@@ -1,4 +1,4 @@
-var U = require('../index');
+var C = require('../index');
 var assert = require('chai').assert;
 
 describe('.then', function() {
@@ -9,7 +9,7 @@ describe('.then', function() {
 
     describe('when called on a fulfilled promise', function() {
         beforeEach(function() {
-            promise = U.resolve();
+            promise = C.resolve();
         });
 
         it('does not run onRejected', function() {
@@ -56,7 +56,7 @@ describe('.then', function() {
 
     describe('when called on a rejected promise', function() {
         beforeEach(function() {
-            promise = U.reject(new Error('woops'));
+            promise = C.reject(new Error('woops'));
         });
 
         it('does not run onFulfilled', function() {
@@ -117,7 +117,7 @@ describe('.all', function() {
         });
 
         it('waits for its arguments to be settled', function() {
-            return U.all(promises).then(function (arg){
+            return C.all(promises).then(function (arg){
                 assert.sameMembers(arg, [1, 2]);
             });
         });
@@ -126,13 +126,13 @@ describe('.all', function() {
     describe('when its arguments are cranberry promises', function() {
         beforeEach(function() {
             promises = [
-                U.resolve(1),
-                U.resolve(2)
+                C.resolve(1),
+                C.resolve(2)
             ];
         });
 
         it('waits for its arguments to be settled', function() {
-            return U.all(promises).then(function (arg){
+            return C.all(promises).then(function (arg){
                 assert.sameMembers(arg, [1, 2]);
             });
         });
@@ -146,7 +146,7 @@ describe('.catch', function() {
 
     describe('when called on a rejected promise', function() {
         beforeEach(function() {
-            promise = U.reject('woops');
+            promise = C.reject('woops');
             value = 'some value';
             handler = function() {
                 return value;
@@ -163,7 +163,7 @@ describe('.catch', function() {
 
         describe('if the onRejected handler returns a fulfilled promise', function() {
             beforeEach(function() {
-                value = U.resolve('some other value');
+                value = C.resolve('some other value');
             });
 
             it('returns a fulfilled promise with the same value as the promise returned by `onRejected`', function() {
@@ -177,7 +177,7 @@ describe('.catch', function() {
 
         describe('if the onRejected handler returns a rejected promise', function() {
             beforeEach(function() {
-                value = U.reject('nope');
+                value = C.reject('nope');
             });
 
             it('returns a rejected promise with the same value as the promise returned by `onRejected`', function() {
@@ -194,7 +194,7 @@ describe('.catch', function() {
         var handlerCalled;
 
         beforeEach(function() {
-            promise = U.resolve('some value');
+            promise = C.resolve('some value');
             handler = function(){
                 handlerCalled = true;
             };
@@ -218,7 +218,7 @@ describe('.catch', function() {
 
         describe('if called on a promise whose rejection value is an instance of the function', function() {
             beforeEach(function() {
-                promise = U.reject(new Constructor());
+                promise = C.reject(new Constructor());
             });
 
             it('uses the second argument as an `onRejected` handler', function() {
@@ -231,7 +231,7 @@ describe('.catch', function() {
 
         describe('if called on a promise whose rejection value is not an instance of the function', function() {
             beforeEach(function() {
-                promise = U.reject(new Error());
+                promise = C.reject(new Error());
             });
 
             it('is not run', function() {
@@ -264,7 +264,7 @@ describe('.spread', function() {
 
     describe('if called on a rejected promise', function() {
         beforeEach(function() {
-            promise = U.reject(new Error('some value'));
+            promise = C.reject(new Error('some value'));
         });
 
         it('is ignored', function() {
@@ -289,7 +289,7 @@ describe('.spread', function() {
                     1,
                     2
                 ];
-                promise = U.resolve(value);
+                promise = C.resolve(value);
             });
 
             it('uses it as an arguments array of the `onFulfillment` handler passed as argument', function() {
@@ -304,7 +304,7 @@ describe('.spread', function() {
         describe('if the fulfillment value is not an array', function() {
             beforeEach(function() {
                 value = 1;
-                promise = U.resolve(value);
+                promise = C.resolve(value);
             });
 
             it('behaves exactly like .then', function() {
