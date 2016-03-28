@@ -23,19 +23,6 @@
             } : undefined;
         }
 
-        function _then(onFulfilled, onRejected) {
-            return new C(null, promise, onFulfilled, onRejected);
-        }
-
-        function _spread(func) {
-            return new C(null, promise, function (arr) {
-                if (!Array.isArray(arr)) {
-                    return func.call(null, arr);
-                }
-                return func.apply(null, arr);
-            });
-        }
-
         function _catch(){
             var handler;
             var constructor;
@@ -63,15 +50,28 @@
             });
         }
 
+        function _spread(func) {
+            return new C(null, promise, function (arr) {
+                if (!Array.isArray(arr)) {
+                    return func.call(null, arr);
+                }
+                return func.apply(null, arr);
+            });
+        }
+
+        function _then(onFulfilled, onRejected) {
+            return new C(null, promise, onFulfilled, onRejected);
+        }
+
         Object.defineProperties(this, {
-            then: {
-                value: _then
+            catch: {
+                value: _catch
             },
             spread: {
                 value: _spread
             },
-            catch: {
-                value: _catch
+            then: {
+                value: _then
             }
         });
     }
