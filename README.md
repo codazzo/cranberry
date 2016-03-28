@@ -40,11 +40,11 @@ Promise.resolve([1, 2]).spread(function(one, two)){
 ```
 
 ### Constructor methods
-### Promise.resolve(value)
+#### Promise.resolve(value)
 See [MDN docs](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve)
-### Promise.reject(value)
+#### Promise.reject(value)
 See [MDN docs](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject)
-### Promise.all(promises)
+#### Promise.all(promises)
 See [MDN docs](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise/all)
 
 ## License
