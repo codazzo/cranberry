@@ -30,6 +30,10 @@ See [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference
 See [MDN docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch)
 #### .catch(constructor, onRejected)
 Like the call above, but it's only run is the rejection value of the promise it's called on is an instance of `constructor`.
+#### .tap(func)
+Only run if called on a fulfilled promise. Returns a new promise (`res`) whose resolution value is the same as the promise it's called on. If `func` returns a promise, the resolution of the returned promise is delayed until said promise is settled. If the promise returned by `func` is rejected (or if `func` throws), the returned promise is rejected as well, with the same value.
+#### .finally(func)
+Like .tap(), but calls `func` even if run on a rejected promise.
 #### .spread(onFulfilled)
 Like then, but if the resolution value of the promise it's called on is an array, the it is used as the arguments array to `onFulfilled`.
 
