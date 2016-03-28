@@ -7,6 +7,20 @@
         root.C = factory();
     }
 }(this, function () {
+    function runAndWaitOn(func) {
+        return function (value) {
+            var handlerRes = func(value);
+
+            if (handlerRes && typeof handlerRes.then === 'function') {
+                return handlerRes.then(function() {
+                    return value;
+                });
+            }
+
+            return value;
+        };
+    }
+
     function C (handler, optionalPromise, onFulfilled, onRejected){
         var promise = optionalPromise ? optionalPromise.then(wrap(onFulfilled), wrap(onRejected)) : new Promise(handler);
         var _u = this;
@@ -50,6 +64,10 @@
             });
         }
 
+        function _finally(func) {
+            return new C(null, promise, runAndWaitOn(func), runAndWaitOn(func));
+        }
+
         function _spread(func) {
             return new C(null, promise, function (arr) {
                 if (!Array.isArray(arr)) {
@@ -64,22 +82,15 @@
         }
 
         function tap(func) {
-            return new C(null, promise, function (value) {
-                var handlerRes = func(value);
-
-                if (handlerRes && typeof handlerRes.then === 'function') {
-                    return handlerRes.then(function(){
-                        return value;
-                    });
-                }
-
-                return value;
-            });
+            return new C(null, promise, runAndWaitOn(func));
         }
 
         Object.defineProperties(this, {
             catch: {
                 value: _catch
+            },
+            finally: {
+                value: _finally
             },
             spread: {
                 value: _spread
