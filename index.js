@@ -63,12 +63,29 @@
             return new C(null, promise, onFulfilled, onRejected);
         }
 
+        function tap(func) {
+            return new C(null, promise, function (value) {
+                var handlerRes = func(value);
+
+                if (handlerRes && typeof handlerRes.then === 'function') {
+                    return handlerRes.then(function(){
+                        return value;
+                    });
+                }
+
+                return value;
+            });
+        }
+
         Object.defineProperties(this, {
             catch: {
                 value: _catch
             },
             spread: {
                 value: _spread
+            },
+            tap: {
+                value: tap
             },
             then: {
                 value: _then
