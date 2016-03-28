@@ -13,6 +13,10 @@
     "mocha": "^2.4.5",
     "promises-aplus-tests": "^2.1.1"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/codazzo/cranberry.git"
+  },
   "scripts": {
     "test": "mocha test/tests.js && promises-aplus-tests test/adapter"
   },
